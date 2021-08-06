@@ -11,6 +11,7 @@
       <option value="id順">id順</option>
       <option value="名前順">名前順</option>
     </select>
+    <form @submit.prevent>
   <table>
     <tr>
       <th>タイトル</th>
@@ -21,18 +22,20 @@
     <tr v-for="(todo,index) in todos" :key="index">
       <td>{{todo.title}}</td>
       <td>{{todo.stage}}</td>
-      <td><button>編集</button></td>
-      <td><button>削除</button></td>
+      <td><button @click="re = !re">編集</button></td>
+      <td><button @click="deletTodo(index)">削除</button></td>
     </tr>
   </table>
-  <form @submit.prevent>
+  
   <p>タスクを追加する</p>
   <input type="text" v-model="addTodosTitle">
   <button style="margin-left:20px;" @click="addTodos">追加</button>
 
+<div  v-show="re">
   <p>タスクを編集する</p>
   <input type="text">
-  <button style="margin-left:20px;">変更</button>
+  <button style="margin-left:20px;" >変更</button>
+</div>
 
   </form>
 
@@ -44,8 +47,9 @@ export default {
   data(){
     return {
       todos: [
-        {title:"リスト作成", stage:"進行中",id:1}
-      ]
+        {title:"リスト作成", stage:"進行中"}
+      ],
+      re:false
     }
   },
   methods:{
@@ -56,8 +60,10 @@ export default {
           stage:"未着手"
         },)
         this.addTodosTitle=""
-      }
-        
+      }        
+    },
+    deletTodo(index){
+      this.todos.splice(index,1)
     }
   }
 }
