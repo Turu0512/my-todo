@@ -18,17 +18,17 @@
       <th>編集</th>
       <th>削除</th>
     </tr>
-    <tr>
-      <td>リスト作成する</td>
-      <td>作業中</td>
+    <tr v-for="(todo,index) in todos" :key="index">
+      <td>{{todo.title}}</td>
+      <td>{{todo.stage}}</td>
       <td><button>編集</button></td>
       <td><button>削除</button></td>
     </tr>
   </table>
-  <form>
+  <form @submit.prevent>
   <p>タスクを追加する</p>
-  <input type="text">
-  <button style="margin-left:20px;">追加</button>
+  <input type="text" v-model="addTodosTitle">
+  <button style="margin-left:20px;" @click="addTodos">追加</button>
 
   <p>タスクを編集する</p>
   <input type="text">
@@ -39,7 +39,29 @@
   </div>
 </template>
 
-
+<script>
+export default {
+  data(){
+    return {
+      todos: [
+        {title:"リスト作成", stage:"進行中",id:1}
+      ]
+    }
+  },
+  methods:{
+    addTodos(){
+      if(this.addTodosTitle){
+        this.todos.push({
+          title:this.addTodosTitle,
+          stage:"未着手"
+        },)
+        this.addTodosTitle=""
+      }
+        
+    }
+  }
+}
+</script>
 
 
 <style>
